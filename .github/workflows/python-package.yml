@@ -27,9 +27,12 @@ jobs:
     - name: Install pipenv
       run: |
         pip install pipenv
-    - name: Install dependencies
+    - uses: actions/github-script@v6
+      env:
+        PY_VERSION: '${{ matrix.python-version }}'
+      name: Install dependencies
       run: |
-        pipenv install --dev
+        pipenv install --dev --python process.env.PY_VERSION
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
