@@ -337,7 +337,7 @@ class TestStack(unittest.TestCase):
         """"""
         result = repr(self.stack)
 
-        self.assertEquals(result, "Stack(cards=deque([]))")
+        self.assertEqual(result, "Stack(cards=deque([]))")
 
     def test_reverse(self):
         """"""
@@ -403,7 +403,7 @@ class TestStack(unittest.TestCase):
         """"""
         result = str(self.full_stack[0])
 
-        self.assertEquals(result, "2 of Diamonds")
+        self.assertEqual(result, "2 of Diamonds")
 
 
 # if __name__ == '__main__':

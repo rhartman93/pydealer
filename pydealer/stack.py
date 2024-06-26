@@ -163,7 +163,7 @@ class Stack(object):
         """
         self_len = len(self)
         if isinstance(key, slice):
-            return [self[i] for i in xrange(*key.indices(self_len))]
+            return [self[i] for i in range(*key.indices(self_len))]
         elif isinstance(key, int):
             if key < 0 :
                 key += self_len
@@ -312,7 +312,7 @@ class Stack(object):
             dealt_cards = [None] * self_size
 
         if self_size:
-            for n in xrange(num):
+            for n in range(num):
                 try:
                     card = ends[end]()
                     dealt_cards[n] = card
@@ -639,7 +639,7 @@ class Stack(object):
             The number of times to shuffle.
 
         """
-        for _ in xrange(times):
+        for _ in range(times):
             random.shuffle(self.cards)
 
     @property
