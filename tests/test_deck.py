@@ -59,13 +59,13 @@ class TestDeck(unittest.TestCase):
 
         dealt_cards = self.deck.deal(53)
 
-        self.assertEquals(self.deck.size, 51)
+        self.assertEqual(self.deck.size, 51)
 
     def test_repr(self):
         """"""
         result = repr(self.empty_deck)
 
-        self.assertEquals(result, "Deck(cards=deque([]))")
+        self.assertEqual(result, "Deck(cards=deque([]))")
 
 
 # if __name__ == '__main__':
