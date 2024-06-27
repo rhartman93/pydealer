@@ -29,12 +29,6 @@ from pydealer.const import (
 from pydealer.stack import Stack
 from pydealer.tools import build_cards
 
-# Dirty little try/except, to make PyDealer work with Python 3.
-try:
-    xrange
-except:
-    xrange = range
-
 
 #===============================================================================
 # Deck Class

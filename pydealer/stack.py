@@ -1,11 +1,11 @@
-#===============================================================================
+# ===============================================================================
 # PyDealer - Stack Class
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Version: 1.4.0
 # Updated: 10-01-2015
 # Author: Alex Crawford
 # License: GPLv3
-#===============================================================================
+# ===============================================================================
 
 """
 This module contains the ``Stack`` class, which is the backbone of the PyDealer
@@ -16,38 +16,28 @@ be used as a hand, or a discard pile, etc.
 """
 
 
-#===============================================================================
+# ===============================================================================
 # Imports
-#===============================================================================
+# ===============================================================================
 
-from collections import deque
 import random
+from collections import deque
 
-from pydealer.const import (
-    BOTTOM,
-    DEFAULT_RANKS,
-    TOP
-)
+from pydealer.const import BOTTOM, DEFAULT_RANKS, TOP
 from pydealer.tools import (
     check_sorted,
     check_term,
-    find_card,
     open_cards,
     random_card,
     save_cards,
-    sort_cards
+    sort_card_indices,
+    sort_cards,
 )
 
-# Dirty little try/except, to make PyDealer work with Python 3.
-try:
-    xrange
-except:
-    xrange = range
-
-
-#===============================================================================
+# ===============================================================================
 # Stack Class
-#===============================================================================
+# ===============================================================================
+
 
 class Stack(object):
     """
@@ -63,6 +53,7 @@ class Stack(object):
         Whether or not to sort the stack upon instantiation.
 
     """
+
     def __init__(self, **kwargs):
         """
         Stack constructor method.
@@ -165,7 +156,7 @@ class Stack(object):
         if isinstance(key, slice):
             return [self[i] for i in range(*key.indices(self_len))]
         elif isinstance(key, int):
-            if key < 0 :
+            if key < 0:
                 key += self_len
             if key >= self_len:
                 raise IndexError("The index ({}) is out of range.".format(key))
@@ -456,8 +447,7 @@ class Stack(object):
         try:
             indices = self.find(term, limit=limit)
             got_cards = [self.cards[i] for i in indices]
-            self.cards = [v for i, v in enumerate(self.cards) if
-                i not in indices]
+            self.cards = [v for i, v in enumerate(self.cards) if i not in indices]
         except:
             got_cards = [self.cards[term]]
             self.cards = [v for i, v in enumerate(self.cards) if i is not term]
@@ -491,10 +481,10 @@ class Stack(object):
 
         try:
             indices = self.find_list(terms, limit=limit)
-            got_cards = [self.cards[i] for i in indices if self.cards[i]
-                not in got_cards]
-            self.cards = [v for i, v in enumerate(self.cards) if
-                i not in indices]
+            got_cards = [
+                self.cards[i] for i in indices if self.cards[i] not in got_cards
+            ]
+            self.cards = [v for i, v in enumerate(self.cards) if i not in indices]
         except:
             indices = []
             for item in terms:
@@ -505,10 +495,10 @@ class Stack(object):
                         indices.append(item)
                 except:
                     indices += self.find(item, limit=limit)
-                    got_cards += [self.cards[i] for i in indices if
-                        self.cards[i] not in got_cards]
-            self.cards = [v for i, v in enumerate(self.cards) if
-                i not in indices]
+                    got_cards += [
+                        self.cards[i] for i in indices if self.cards[i] not in got_cards
+                    ]
+            self.cards = [v for i, v in enumerate(self.cards) if i not in indices]
 
         if sort:
             got_cards = sort_cards(got_cards, ranks)
@@ -536,7 +526,6 @@ class Stack(object):
             half_x, half_y = self.split(indice)
             self.cards = list(half_x.cards) + [card] + list(half_y.cards)
 
-
     def insert_list(self, cards, indice=-1):
         """
         Insert a list of given cards into the stack at a given indice.
@@ -557,7 +546,6 @@ class Stack(object):
         elif indice != self_size:
             half_x, half_y = self.split(indice)
             self.cards = list(half_x.cards) + list(cards) + list(half_y.cards)
-
 
     def is_sorted(self, ranks=None):
         """
@@ -692,9 +680,10 @@ class Stack(object):
             return Stack(cards=self.cards), Stack()
 
 
-#===============================================================================
+# ===============================================================================
 # Helper Functions
-#===============================================================================
+# ===============================================================================
+
 
 def convert_to_stack(deck):
     """

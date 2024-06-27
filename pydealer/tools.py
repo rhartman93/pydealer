@@ -1,11 +1,11 @@
-#===============================================================================
+# ===============================================================================
 # PyDealer - Tools
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Version: 1.4.0
 # Updated: 10-01-2015
 # Author: Alex Crawford
 # License: GPLv3
-#===============================================================================
+# ===============================================================================
 
 """
 The tools module contains functions for working with sequences of cards, some
@@ -15,30 +15,20 @@ of which are used by the classes in the PyDealer package, such as the functions
 """
 
 
-#===============================================================================
+# ===============================================================================
 # Imports
-#===============================================================================
+# ===============================================================================
 
 import random
 import time
 
 from pydealer.card import Card
-from pydealer.const import (
-    DEFAULT_RANKS,
-    VALUES,
-    SUITS
-)
+from pydealer.const import DEFAULT_RANKS, SUITS, VALUES
 
-# Dirty little try/except, to make PyDealer work with Python 3.
-try:
-    xrange
-except:
-    xrange = range
-
-
-#===============================================================================
+# ===============================================================================
 # Utility Functions
-#===============================================================================
+# ===============================================================================
+
 
 def build_cards(jokers=False, num_jokers=0):
     """
@@ -107,8 +97,15 @@ def check_term(card, term):
 
     """
     check_list = [
-        x.lower() for x in [card.name, card.suit, card.value, card.abbrev,
-        card.suit[0], card.value[0]]
+        x.lower()
+        for x in [
+            card.name,
+            card.suit,
+            card.value,
+            card.abbrev,
+            card.suit[0],
+            card.value[0],
+        ]
     ]
 
     term = term.lower()
@@ -192,7 +189,7 @@ def find_card(cards, term, limit=0, sort=False, ranks=None):
                 break
 
     if sort:
-        found_indices = sort_card_indices(self, found_indices, ranks)
+        found_indices = sort_card_indices(cards, found_indices, ranks)
 
     return found_indices
 
@@ -305,8 +302,7 @@ def get_list(cards, terms, limit=0, sort=False, ranks=None):
 
     try:
         indices = find_list(cards, terms, limit=limit)
-        got_cards = [cards[i] for i in indices if cards[i]
-            not in got_cards]
+        got_cards = [cards[i] for i in indices if cards[i] not in got_cards]
         cards = [v for i, v in enumerate(cards) if i not in indices]
     except:
         indices = []
@@ -318,8 +314,7 @@ def get_list(cards, terms, limit=0, sort=False, ranks=None):
                     indices.append(item)
             except:
                 indices += find_card(cards, item, limit=limit)
-                got_cards += [cards[i] for i in indices if
-                    cards[i] not in got_cards]
+                got_cards += [cards[i] for i in indices if cards[i] not in got_cards]
         cards = [v for i, v in enumerate(cards) if i not in indices]
 
     if sort:
@@ -420,14 +415,10 @@ def sort_card_indices(cards, indices, ranks=None):
     if ranks.get("suits"):
         indices = sorted(
             indices,
-            key=lambda x: ranks["suits"][cards[x].suit] if
-                cards[x].suit != None else 0
+            key=lambda x: ranks["suits"][cards[x].suit] if cards[x].suit != None else 0,
         )
     if ranks.get("values"):
-        indices = sorted(
-            indices,
-            key=lambda x: ranks["values"][cards[x].value]
-        )
+        indices = sorted(indices, key=lambda x: ranks["values"][cards[x].value])
 
     return indices
 
@@ -450,13 +441,9 @@ def sort_cards(cards, ranks=None):
 
     if ranks.get("suits"):
         cards = sorted(
-            cards,
-            key=lambda x: ranks["suits"][x.suit] if x.suit != None else 0
+            cards, key=lambda x: ranks["suits"][x.suit] if x.suit != None else 0
         )
     if ranks.get("values"):
-        cards = sorted(
-            cards,
-            key=lambda x: ranks["values"][x.value]
-        )
+        cards = sorted(cards, key=lambda x: ranks["values"][x.value])
 
     return cards
